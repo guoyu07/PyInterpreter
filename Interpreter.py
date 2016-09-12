@@ -36,19 +36,11 @@ class Interpreter:
         if len(numbers) == 2:
             for step in to_execute["instructions"]:
                 (instruction, argument) = self.parse_argument(step[0], step[1], to_execute)
-                if instruction == "LOAD_VALUE":
-                    try:
-                        self.LOAD_VALUE(argument)
-                    except IndexError:
-                        continue
-                elif instruction == "ADD_TWO_VALUES":
-                    self.ADD_TWO_VALUES()
-                elif instruction == "PRINT_ANSWER":
-                    self.PRINT_ANSWER()
-                elif instruction == "STORE_NAME":
-                    self.STORE_NAME(argument)
-                elif instruction == "LOAD_NAME":
-                    self.LOAD_NAME(argument)
+                method = getattr(self, instruction)
+                if argument is None:
+                    method()
+                else:
+                    method(argument)
 
 
 if __name__ == '__main__':
